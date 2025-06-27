@@ -1,66 +1,69 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useSpring } from "framer-motion"
 
 export function CursorFollower() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
+  const cursorX = useSpring(0, { stiffness: 500, damping: 28 })
+  const cursorY = useSpring(0, { stiffness: 500, damping: 28 })
+
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX)
+      cursorY.set(e.clientY)
     }
 
-    const handleMouseEnter = () => setIsHovering(true)
-    const handleMouseLeave = () => setIsHovering(false)
+    const handleMouseEnter = () => setIsVisible(true)
+    const handleMouseLeave = () => setIsVisible(false)
 
-    window.addEventListener("mousemove", updateMousePosition)
+    const handleHoverStart = () => setIsHovering(true)
+    const handleHoverEnd = () => setIsHovering(false)
 
-    // Add hover listeners to interactive elements
-    const interactiveElements = document.querySelectorAll("button, a, [data-cursor-hover]")
+    window.addEventListener("mousemove", moveCursor)
+    document.addEventListener("mouseenter", handleMouseEnter)
+    document.addEventListener("mouseleave", handleMouseLeave)
+
+    // Add hover effects for interactive elements
+    const interactiveElements = document.querySelectorAll("button, a, [role='button']")
     interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter)
-      el.addEventListener("mouseleave", handleMouseLeave)
+      el.addEventListener("mouseenter", handleHoverStart)
+      el.addEventListener("mouseleave", handleHoverEnd)
     })
 
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition)
+      window.removeEventListener("mousemove", moveCursor)
+      document.removeEventListener("mouseenter", handleMouseEnter)
+      document.removeEventListener("mouseleave", handleMouseLeave)
       interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter)
-        el.removeEventListener("mouseleave", handleMouseLeave)
+        el.removeEventListener("mouseenter", handleHoverStart)
+        el.removeEventListener("mouseleave", handleHoverEnd)
       })
     }
-  }, [])
+  }, [cursorX, cursorY])
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-neon-cyan rounded-full pointer-events-none z-50 mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 1.5 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 500,
-          damping: 28,
-        }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-neon-cyan/50 rounded-full pointer-events-none z-50"
-        animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-          scale: isHovering ? 2 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-        }}
-      />
-    </>
+    <motion.div
+      className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-50 mix-blend-difference hidden md:block"
+      style={{
+        x: cursorX,
+        y: cursorY,
+        translateX: "-50%",
+        translateY: "-50%",
+      }}
+      animate={{
+        scale: isVisible ? (isHovering ? 1.5 : 1) : 0,
+        opacity: isVisible ? 1 : 0,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 500,
+        damping: 28,
+      }}
+    >
+      <div className="w-full h-full bg-white rounded-full" />
+    </motion.div>
   )
 }

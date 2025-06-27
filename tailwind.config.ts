@@ -53,14 +53,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Sophisticated gradient colors
-        gradient: {
-          blue: "#3b82f6",
-          purple: "#8b5cf6",
-          emerald: "#10b981",
-          pink: "#ec4899",
-          indigo: "#6366f1",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -81,18 +73,6 @@ const config = {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
-        "gradient-rotate": {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.8" },
-        },
         "grid-move": {
           "0%": { transform: "translate(0, 0)" },
           "100%": { transform: "translate(-50px, -50px)" },
@@ -102,14 +82,10 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "gradient-shift": "gradient-shift 8s ease infinite",
-        "gradient-rotate": "gradient-rotate 4s ease-in-out infinite",
-        float: "float 3s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "grid-move": "grid-move 20s linear infinite",
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-sophisticated": "linear-gradient(135deg, var(--tw-gradient-stops))",
+      backgroundSize: {
+        "300%": "300% 300%",
       },
     },
   },

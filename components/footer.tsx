@@ -1,71 +1,58 @@
-import { Github, Linkedin, Mail, Heart } from "lucide-react"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
+"use client"
+
+import { motion } from "framer-motion"
+import { Github, Linkedin, Twitter, Mail, Heart } from "lucide-react"
+import { ThemeToggle } from "./theme-toggle"
+
+const socialLinks = [
+  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+]
 
 export function Footer() {
   return (
-    <footer className="bg-background dark:bg-cyber-darker border-t border-border relative overflow-hidden">
-      {/* Tech Grid Background */}
-      <div className="absolute inset-0 tech-grid opacity-5" />
-
-      <div className="container px-4 md:px-6 py-12 relative z-10">
-        <div className="flex flex-col items-center space-y-6">
-          <div className="flex items-center space-x-6">
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="a"
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-background/80 dark:bg-black/80 backdrop-blur-sm text-foreground flex items-center justify-center w-12 h-12"
-              data-cursor-hover
-            >
-              <Github className="h-5 w-5 text-muted-foreground hover:text-neon-cyan transition-colors" />
-              <span className="sr-only">GitHub</span>
-            </HoverBorderGradient>
-
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="a"
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-background/80 dark:bg-black/80 backdrop-blur-sm text-foreground flex items-center justify-center w-12 h-12"
-              data-cursor-hover
-            >
-              <Linkedin className="h-5 w-5 text-muted-foreground hover:text-neon-purple transition-colors" />
-              <span className="sr-only">LinkedIn</span>
-            </HoverBorderGradient>
-
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="a"
-              href="mailto:ripon@example.com"
-              className="bg-background/80 dark:bg-black/80 backdrop-blur-sm text-foreground flex items-center justify-center w-12 h-12"
-              data-cursor-hover
-            >
-              <Mail className="h-5 w-5 text-muted-foreground hover:text-neon-green transition-colors" />
-              <span className="sr-only">Email</span>
-            </HoverBorderGradient>
+    <footer className="bg-gray-50/50 dark:bg-gray-900/50 border-t border-gray-200/50 dark:border-gray-800/50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center space-y-8"
+        >
+          {/* Social Links */}
+          <div className="flex justify-center space-x-6">
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-white/50 dark:bg-black/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-800/50 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-black/80 transition-all duration-300 hover:scale-110"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="sr-only">{label}</span>
+              </motion.a>
+            ))}
           </div>
 
-          <div className="text-center space-y-2">
-            <p className="text-muted-foreground">
-              © {new Date().getFullYear()} <span className="text-neon-cyan font-semibold">Shahadat Hussain Ripon</span>.
-              All rights reserved.
-            </p>
-            <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
-              Crafted with <Heart className="h-4 w-4 text-neon-pink fill-current animate-pulse" /> using{" "}
-              <span className="text-neon-cyan">Next.js</span> & <span className="text-neon-purple">Tailwind CSS</span>
-            </p>
+          {/* Theme Toggle */}
+          <div className="flex justify-center">
+            <ThemeToggle />
           </div>
 
-          {/* Floating Tech Elements */}
-          <div className="absolute bottom-4 left-4 w-2 h-2 bg-neon-cyan rounded-full animate-pulse" />
-          <div
-            className="absolute top-4 right-4 w-3 h-3 border border-neon-purple rotate-45 animate-spin"
-            style={{ animationDuration: "10s" }}
-          />
-        </div>
+          {/* Copyright */}
+          <div className="pt-8 border-t border-gray-200/50 dark:border-gray-800/50">
+            <p className="text-gray-600 dark:text-gray-400 flex items-center justify-center gap-2">
+              Made with <Heart className="w-4 h-4 text-red-500 fill-current" /> by Your Name
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">© 2024 All rights reserved.</p>
+          </div>
+        </motion.div>
       </div>
     </footer>
   )

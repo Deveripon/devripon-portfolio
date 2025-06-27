@@ -1,24 +1,36 @@
 "use client"
+
+import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
+import { Button } from "@/components/ui/button"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="sm" className="w-9 h-9 p-0">
+        <Sun className="h-4 w-4" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    )
+  }
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <HoverBorderGradient
-        containerClassName="rounded-full"
-        as="button"
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="bg-background/80 dark:bg-black/80 backdrop-blur-sm text-foreground flex items-center justify-center w-10 h-10"
-        data-cursor-hover
-      >
-        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-neon-cyan" />
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-neon-purple" />
-        <span className="sr-only">Toggle theme</span>
-      </HoverBorderGradient>
-    </div>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      className="w-9 h-9 p-0 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+    >
+      {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   )
 }

@@ -1,151 +1,153 @@
 "use client"
-import { Download, Mail, Zap } from "lucide-react"
-import { Spotlight } from "@/components/ui/spotlight"
+
+import { motion } from "framer-motion"
+import { ArrowDown, Github, Linkedin, Mail, Twitter } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { FlipWords } from "@/components/ui/flip-words"
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import Image from "next/image"
+import { Spotlight } from "@/components/ui/spotlight"
 
-gsap.registerPlugin(ScrollTrigger)
-
-const words =
-  "Crafting the future of web with cutting-edge technologies. I build scalable applications that push the boundaries of what's possible in the digital realm."
+const words = ["Developer", "Designer", "Creator", "Innovator"]
 
 export function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const buttonsRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero entrance animation
-      const tl = gsap.timeline()
-
-      tl.fromTo(titleRef.current, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" })
-        .fromTo(
-          subtitleRef.current,
-          { y: 50, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-          "-=0.8",
-        )
-        .fromTo(
-          buttonsRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-          "-=0.6",
-        )
-        .fromTo(
-          imageRef.current,
-          { x: 100, opacity: 0 },
-          { x: 0, opacity: 1, duration: 1, ease: "power3.out" },
-          "-=0.4",
-        )
-
-      // Floating orbs animation
-      gsap.to(".floating-orb", {
-        y: -20,
-        duration: 2,
-        ease: "power2.inOut",
-        yoyo: true,
-        repeat: -1,
-        stagger: 0.3,
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about")
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" })
+    }
+  }
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background antialiased bg-grid-black/[0.02] dark:bg-grid-white/[0.02]"
-    >
-      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="blue" />
-      <Spotlight className="top-10 left-full h-[80vh] w-[50vw]" fill="purple" />
-      <Spotlight className="top-28 left-80 h-[80vh] w-[50vw]" fill="emerald" />
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
 
-      {/* Sophisticated Floating Orbs */}
-      <div className="floating-orb absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-gradient-blue/20 to-gradient-purple/20 rounded-full blur-xl animate-pulse-glow" />
-      <div className="floating-orb absolute top-40 right-32 w-24 h-24 bg-gradient-to-r from-gradient-purple/20 to-gradient-emerald/20 rounded-full blur-xl animate-pulse-glow" />
-      <div className="floating-orb absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-r from-gradient-emerald/20 to-gradient-blue/20 rounded-full blur-xl animate-pulse-glow" />
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-black dark:to-gray-900" />
 
-      <div className="container px-4 md:px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-          {/* Left Side - Text Content */}
-          <div ref={contentRef} className="flex flex-col justify-center space-y-8 text-center lg:text-left">
-            <div className="space-y-6">
-              <h1 ref={titleRef} className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                <span className="bg-gradient-to-r from-gradient-blue via-gradient-purple to-gradient-emerald bg-clip-text text-transparent animate-gradient text-glow">
-                  Shahadat Hussain Ripon
-                </span>
-              </h1>
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-              <div ref={subtitleRef} className="relative">
-                <p className="text-xl md:text-2xl bg-gradient-to-r from-gradient-blue to-gradient-purple bg-clip-text text-transparent font-medium animate-pulse-glow">
-                  Full-Stack JavaScript Developer
-                </p>
-                <div className="absolute -bottom-2 left-1/2 lg:left-0 transform -translate-x-1/2 lg:translate-x-0 w-32 h-0.5 bg-gradient-to-r from-transparent via-gradient-blue to-transparent animate-pulse-glow" />
-              </div>
-
-              <div className="mx-auto lg:mx-0 max-w-[600px]">
-                <TextGenerateEffect words={words} className="text-muted-foreground md:text-lg leading-relaxed" />
-              </div>
-            </div>
-
-            <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                as="button"
-                className="bg-background/80 backdrop-blur-sm text-foreground flex items-center space-x-2 px-8 py-3 hover:glow-blue transition-all duration-300"
-                data-cursor-hover
-              >
-                <Download className="h-4 w-4" />
-                <span>Download Resume</span>
-                <Zap className="h-4 w-4" />
-              </HoverBorderGradient>
-
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                as="button"
-                className="bg-background/80 backdrop-blur-sm text-foreground flex items-center space-x-2 px-8 py-3 hover:glow-purple transition-all duration-300"
-                data-cursor-hover
-              >
-                <Mail className="h-4 w-4" />
-                <span>Hire Me</span>
-              </HoverBorderGradient>
-            </div>
-          </div>
-
-          {/* Right Side - Hero Image */}
-          <div ref={imageRef} className="flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg">
-              <div className="relative rounded-2xl overflow-hidden cta-gradient-border">
-                <Image
-                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&h=800&q=80"
-                  alt="Developer coding workspace with multiple monitors"
-                  width={500}
-                  height={400}
-                  className="w-full h-[400px] object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-gradient-blue/20 via-transparent to-gradient-purple/20" />
-              </div>
-
-              {/* Floating Tech Elements */}
-              <div className="floating-orb absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-r from-gradient-blue/30 to-gradient-purple/30 rounded-full blur-xl animate-pulse-glow" />
-              <div className="floating-orb absolute -top-4 -left-4 w-32 h-32 bg-gradient-to-r from-gradient-purple/30 to-gradient-emerald/30 rounded-full blur-xl animate-pulse-glow" />
-              <div
-                className="absolute top-1/2 -right-8 w-4 h-4 border-2 border-gradient-blue rotate-45 animate-spin"
-                style={{ animationDuration: "8s" }}
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8"
+        >
+          {/* Main heading */}
+          <div className="space-y-4">
+            <motion.h1
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-white dark:via-gray-300 dark:to-white bg-clip-text text-transparent">
+                Hi, I'm a
+              </span>
+              <br />
+              <FlipWords
+                words={words}
+                className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-white dark:via-gray-300 dark:to-white bg-clip-text text-transparent"
               />
-            </div>
+            </motion.h1>
           </div>
-        </div>
+
+          {/* Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="max-w-2xl mx-auto"
+          >
+            <TextGenerateEffect
+              words="I craft beautiful, functional, and user-centered digital experiences that make a difference. Let's build something amazing together."
+              className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed"
+            />
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 text-white dark:text-black hover:from-gray-800 hover:to-gray-600 dark:hover:from-gray-100 dark:hover:to-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              onClick={() => {
+                const projectsSection = document.getElementById("projects")
+                if (projectsSection) {
+                  projectsSection.scrollIntoView({ behavior: "smooth" })
+                }
+              }}
+            >
+              View My Work
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 bg-transparent"
+              onClick={() => {
+                const contactSection = document.getElementById("contact")
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: "smooth" })
+                }
+              }}
+            >
+              Get In Touch
+            </Button>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex justify-center space-x-6"
+          >
+            {[
+              { icon: Github, href: "https://github.com", label: "GitHub" },
+              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+              { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+              { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+            ].map(({ icon: Icon, href, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-sm border border-gray-200/20 dark:border-gray-800/20 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 hover:scale-110"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="sr-only">{label}</span>
+              </motion.a>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={scrollToAbout}
+            className="flex flex-col items-center space-y-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          >
+            <span className="text-sm">Scroll to explore</span>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
+              <ArrowDown className="w-4 h-4" />
+            </motion.div>
+          </Button>
+        </motion.div>
       </div>
     </section>
   )

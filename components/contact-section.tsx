@@ -1,217 +1,200 @@
 "use client"
-import { useEffect, useRef } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-gsap.registerPlugin(ScrollTrigger)
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import type React from "react"
+
+import { motion } from "framer-motion"
 import { Mail, Phone, MapPin, Send } from "lucide-react"
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient"
-import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+
+const contactInfo = [
+  {
+    icon: Mail,
+    title: "Email",
+    value: "hello@example.com",
+    href: "mailto:hello@example.com",
+  },
+  {
+    icon: Phone,
+    title: "Phone",
+    value: "+1 (555) 123-4567",
+    href: "tel:+15551234567",
+  },
+  {
+    icon: MapPin,
+    title: "Location",
+    value: "San Francisco, CA",
+    href: "#",
+  },
+]
 
 export function ContactSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const formRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        titleRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-          },
-        },
-      )
-
-      gsap.fromTo(
-        contentRef.current,
-        { x: -50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-        },
-      )
-
-      gsap.fromTo(
-        formRef.current,
-        { x: 50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-        },
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle form submission
+    console.log("Form submitted")
+  }
 
   return (
-    <section ref={sectionRef} id="contact" className="py-24 relative">
-      {/* Tech Background */}
-      <div className="absolute inset-0 tech-grid opacity-5" />
-      <div className="absolute inset-0 gradient-bg" />
-
-      <div className="container px-4 md:px-6 relative z-10">
-        <div ref={titleRef} className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-            <span className="bg-gradient-to-r from-gradient-blue via-gradient-purple to-gradient-emerald bg-clip-text text-transparent animate-gradient">
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-white dark:via-gray-300 dark:to-white bg-clip-text text-transparent">
               Get In Touch
             </span>
           </h2>
-          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-            Ready to build the{" "}
-            <span className="bg-gradient-to-r from-gradient-blue to-gradient-purple bg-clip-text text-transparent font-semibold">
-              future
-            </span>{" "}
-            together? Let's discuss how I can help bring your ideas to life.
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            Have a project in mind or just want to chat? I'd love to hear from you. Let's create something amazing
+            together.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-12 lg:grid-cols-2">
-          {/* Contact Info */}
-          <div ref={contentRef} className="space-y-8">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-gradient-blue to-gradient-purple bg-clip-text text-transparent">
-                Let's Connect
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                I'm always interested in hearing about new opportunities and exciting projects. Whether you have a
-                question or just want to say hi, feel free to reach out!
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Let's Connect</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                I'm always interested in new opportunities and exciting projects. Whether you're a company looking to
+                hire, or you're a fellow developer wanting to collaborate, don't hesitate to reach out.
               </p>
             </div>
 
-            {/* Contact Image */}
-            <div className="relative">
-              <Image
-                src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&h=600&q=80"
-                alt="Modern office workspace with communication tools"
-                width={400}
-                height={300}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-gradient-blue/20 to-gradient-purple/20 rounded-lg" />
+            <div className="space-y-6">
+              {contactInfo.map((info, index) => {
+                const Icon = info.icon
+                return (
+                  <motion.div
+                    key={info.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <Card className="bg-white/50 dark:bg-black/50 backdrop-blur-sm border-gray-200/50 dark:border-gray-800/50 hover:bg-white/80 dark:hover:bg-black/80 transition-all duration-300">
+                      <CardContent className="p-6">
+                        <div className="flex items-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-lg flex items-center justify-center mr-4">
+                            <Icon className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{info.title}</h4>
+                            <a
+                              href={info.href}
+                              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                            >
+                              {info.value}
+                            </a>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              })}
             </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-gradient-blue/50 transition-colors cta-gradient-border">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gradient-blue/20 to-gradient-purple/20 flex items-center justify-center">
-                  <Mail className="h-5 w-5 text-gradient-blue" />
-                </div>
-                <div>
-                  <div className="font-medium text-gradient-blue">Email</div>
-                  <div className="text-muted-foreground">ripon@example.com</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-gradient-purple/50 transition-colors cta-gradient-border">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gradient-purple/20 to-gradient-emerald/20 flex items-center justify-center">
-                  <Phone className="h-5 w-5 text-gradient-purple" />
-                </div>
-                <div>
-                  <div className="font-medium text-gradient-purple">Phone</div>
-                  <div className="text-muted-foreground">+1 (555) 123-4567</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border hover:border-gradient-emerald/50 transition-colors cta-gradient-border">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gradient-emerald/20 to-gradient-blue/20 flex items-center justify-center">
-                  <MapPin className="h-5 w-5 text-gradient-emerald" />
-                </div>
-                <div>
-                  <div className="font-medium text-gradient-emerald">Location</div>
-                  <div className="text-muted-foreground">Dhaka, Bangladesh</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Contact Form */}
-          <Card ref={formRef} className="bg-card/50 backdrop-blur-sm border-border cta-gradient-border">
-            <CardHeader>
-              <CardTitle className="bg-gradient-to-r from-gradient-blue to-gradient-purple bg-clip-text text-transparent">
-                Send Message
-              </CardTitle>
-              <CardDescription>Fill out the form below and I'll get back to you as soon as possible.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-gradient-blue">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    placeholder="Your name"
-                    className="bg-muted/50 border-border focus:border-gradient-blue"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gradient-blue">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your@email.com"
-                    className="bg-muted/50 border-border focus:border-gradient-blue"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="subject" className="text-gradient-blue">
-                  Subject
-                </Label>
-                <Input
-                  id="subject"
-                  placeholder="Project inquiry"
-                  className="bg-muted/50 border-border focus:border-gradient-blue"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message" className="text-gradient-blue">
-                  Message
-                </Label>
-                <Textarea
-                  id="message"
-                  placeholder="Tell me about your project..."
-                  className="min-h-[120px] bg-muted/50 border-border focus:border-gradient-blue"
-                />
-              </div>
-              <HoverBorderGradient
-                containerClassName="rounded-full w-full"
-                as="button"
-                className="bg-background/80 backdrop-blur-sm text-foreground flex items-center justify-center space-x-2 px-8 py-3 w-full hover:glow-blue transition-all duration-300"
-                data-cursor-hover
-              >
-                <Send className="h-4 w-4" />
-                <span>Send Message</span>
-              </HoverBorderGradient>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <Card className="bg-white/50 dark:bg-black/50 backdrop-blur-sm border-gray-200/50 dark:border-gray-800/50">
+              <CardHeader>
+                <CardTitle className="text-2xl text-gray-900 dark:text-white">Send a Message</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName" className="text-gray-700 dark:text-gray-300">
+                        First Name
+                      </Label>
+                      <Input
+                        id="firstName"
+                        placeholder="John"
+                        className="bg-white/50 dark:bg-black/50 border-gray-200/50 dark:border-gray-800/50"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName" className="text-gray-700 dark:text-gray-300">
+                        Last Name
+                      </Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Doe"
+                        className="bg-white/50 dark:bg-black/50 border-gray-200/50 dark:border-gray-800/50"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="john@example.com"
+                      className="bg-white/50 dark:bg-black/50 border-gray-200/50 dark:border-gray-800/50"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subject" className="text-gray-700 dark:text-gray-300">
+                      Subject
+                    </Label>
+                    <Input
+                      id="subject"
+                      placeholder="Project Inquiry"
+                      className="bg-white/50 dark:bg-black/50 border-gray-200/50 dark:border-gray-800/50"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-gray-700 dark:text-gray-300">
+                      Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell me about your project..."
+                      rows={5}
+                      className="bg-white/50 dark:bg-black/50 border-gray-200/50 dark:border-gray-800/50 resize-none"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 text-white dark:text-black hover:from-gray-800 hover:to-gray-600 dark:hover:from-gray-100 dark:hover:to-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </div>
     </section>

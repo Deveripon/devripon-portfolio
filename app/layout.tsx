@@ -4,15 +4,15 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
+import { FloatingNavbar } from "@/components/floating-navbar"
 import { CursorFollower } from "@/components/cursor-follower"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Shahadat Hussain Ripon - Full-Stack JavaScript Developer",
-  description:
-    "Portfolio of Shahadat Hussain Ripon, a passionate Full-Stack JavaScript Developer specializing in React, Next.js, and Node.js.",
+  title: "Modern Developer Portfolio",
+  description: "A modern, responsive developer portfolio built with Next.js and Tailwind CSS",
     generator: 'v0.dev'
 }
 
@@ -22,13 +22,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SmoothScrollProvider>
+            <FloatingNavbar />
             <CursorFollower />
-            <ThemeToggle />
             {children}
+            <Toaster />
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>
