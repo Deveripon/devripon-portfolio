@@ -39,10 +39,12 @@ export function FloatingNavbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-4 left-0 right-0 margin-auto z-50 transition-all duration-300 ${
+   className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${
+
         isScrolled ? "scale-95" : "scale-100"
       }`}
     >
+         
       <div className="bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 dark:border-gray-800/50 rounded-2xl px-6 py-3 shadow-2xl">
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
